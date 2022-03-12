@@ -39,6 +39,17 @@ ALTER TABLE person__role
 CREATE TABLE company
 (
     id           BIGSERIAL PRIMARY KEY,
+    admin_id     bigint references person (id),
+    name         text,
+    description  text,
+    created_time timestamp default (current_timestamp),
+    updated_time timestamp
+);
+
+CREATE TABLE item
+(
+    id           BIGSERIAL PRIMARY KEY,
+    company_id   bigint references company (id),
     name         text,
     description  text,
     created_time timestamp default (current_timestamp),

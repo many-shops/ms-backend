@@ -42,8 +42,7 @@ public class AuthController {
 
     @PostMapping(value = "/signin")
     public TokenDto generateToken(@RequestBody RegistrationRequest loginPerson) throws AuthenticationException {
-
-        final Authentication authentication = authenticationManager.authenticate(
+        var authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         loginPerson.getLogin(),
                         loginPerson.getPassword()
@@ -53,10 +52,8 @@ public class AuthController {
         List<String> roles = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
-        System.out.println(roles);
         SecurityContextHolder.getContext().setAuthentication(authentication);
         PersonDto user = userService.getPerson(principal.getUsername());
-        System.out.println(user.getId());
         return new TokenDto(jwtTokenUtil.generateToken(authentication), user.getId(), user.getUsername(),
                 user.getEmail(), roles);
     }

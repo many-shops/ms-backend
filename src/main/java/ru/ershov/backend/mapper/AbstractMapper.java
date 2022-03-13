@@ -3,11 +3,15 @@ package ru.ershov.backend.mapper;
 import lombok.Getter;
 import lombok.Setter;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
+import ru.ershov.backend.config.ModelMapperConfig;
 import ru.ershov.backend.dto.AbstractDto;
 import ru.ershov.backend.entity.AbstractEntity;
 
 import java.util.Objects;
+
+import static org.modelmapper.config.Configuration.AccessLevel.PRIVATE;
 
 public abstract class AbstractMapper<E extends AbstractEntity, D extends AbstractDto> implements Mapper<E, D> {
 
@@ -15,13 +19,17 @@ public abstract class AbstractMapper<E extends AbstractEntity, D extends Abstrac
     private final Class<D> dtoClass;
 
     @Getter
-    @Setter
-    @Autowired
-    private ModelMapper mapper;
+    private final ModelMapper mapper;
 
     protected AbstractMapper(Class<E> entityClass, Class<D> dtoClass) {
         this.entityClass = entityClass;
         this.dtoClass = dtoClass;
+        mapper = new ModelMapper();
+        mapper.getConfiguration()
+                .setMatchingStrategy(MatchingStrategies.STRICT)
+                .setFieldMatchingEnabled(true)
+                .setSkipNullEnabled(true)
+                .setFieldAccessLevel(PRIVATE);
     }
 
     protected AbstractMapper(Class<E> entityClass, Class<D> dtoClass, ModelMapper mapper) {

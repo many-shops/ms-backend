@@ -1,10 +1,13 @@
 package ru.ershov.backend.dto;
 
-
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import org.springframework.validation.annotation.Validated;
+import ru.ershov.backend.entity.Role;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Null;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -33,4 +36,8 @@ public class PersonDto extends AbstractDto {
 
     @NotBlank
     private Boolean enabled;
+
+    @Null
+    @JsonIgnoreProperties({"persons"})
+    private Set<Role> roles;
 }

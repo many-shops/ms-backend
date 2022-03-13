@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import ru.ershov.backend.dto.PersonDto;
@@ -14,7 +15,7 @@ import java.util.List;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/person")
+@RequestMapping("/api/person")
 @RequiredArgsConstructor
 public class PersonController {
 
@@ -41,13 +42,13 @@ public class PersonController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping
-    public PersonDto getCurrentSessionPerson(Person person) {
+    public PersonDto getCurrentSessionPerson(@AuthenticationPrincipal Person person) {
         return personService.getById(person.getId());
     }
 
     @PreAuthorize("isAuthenticated()")
     @PutMapping
-    public PersonDto getCurrentSessionPerson(@RequestBody PersonDto personDto, Person person) {
+    public PersonDto getCurrentSessionPerson(@RequestBody PersonDto personDto, @AuthenticationPrincipal Person person) {
         return personService.update(person.getId(), personDto);
     }
 }

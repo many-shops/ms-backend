@@ -34,7 +34,7 @@ public class AuthController {
     public String registerUser(@RequestBody @Valid RegistrationRequest registrationRequest) {
         PersonDto p = new PersonDto();
         p.setPassword(registrationRequest.getPassword());
-        p.setEmail(registrationRequest.getLogin());
+        p.setUsername(registrationRequest.getLogin());
         p.setEnabled(true);
         userService.insert(p);
         return "OK";

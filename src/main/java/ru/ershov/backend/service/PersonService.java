@@ -53,8 +53,7 @@ public class PersonService implements UserDetailsService {
     public PersonDto update(Long id, PersonDto personDto) {
         var person = personRepository.findById(id).orElseThrow();
         mapper.updateEntity(person, personDto);
-        personRepository.save(person);
-        return personDto;
+        return mapper.toDto(personRepository.save(person));
     }
 
     public void delete(Long id) {

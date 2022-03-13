@@ -52,6 +52,7 @@ CREATE TABLE item
     company_id   bigint references company (id),
     name         text,
     description  text,
+    price        decimal(8,2),
     created_time timestamp default (current_timestamp),
     updated_time timestamp
 )

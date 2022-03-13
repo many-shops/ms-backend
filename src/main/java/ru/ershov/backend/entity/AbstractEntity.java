@@ -2,9 +2,7 @@ package ru.ershov.backend.entity;
 
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Getter
@@ -15,6 +13,7 @@ import java.sql.Timestamp;
 public abstract class AbstractEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 

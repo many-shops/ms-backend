@@ -23,18 +23,12 @@ CREATE TABLE role
 CREATE TABLE person__role
 (
     id           BIGSERIAL PRIMARY KEY,
-    role_id      bigint,
-    person_id    bigint,
+    role_id      bigint references role (id),
+    person_id    bigint references person (id),
     created_time timestamp default (current_timestamp),
     updated_time timestamp,
     UNIQUE (role_id, person_id)
 );
-
-ALTER TABLE person__role
-    ADD FOREIGN KEY (role_id) REFERENCES role (id);
-
-ALTER TABLE person__role
-    ADD FOREIGN KEY (person_id) REFERENCES person (id);
 
 CREATE TABLE company
 (
@@ -55,4 +49,15 @@ CREATE TABLE item
     price        decimal(8,2),
     created_time timestamp default (current_timestamp),
     updated_time timestamp
+);
+
+CREATE TABLE shopping_cart
+(
+    id           BIGSERIAL PRIMARY KEY,
+    person_id    bigint references person (id),
+    item_id      bigint references item (id),
+    amount       bigint,
+    created_time timestamp default (current_timestamp),
+    updated_time timestamp,
+    UNIQUE (person_id, item_id)
 )

@@ -1,16 +1,15 @@
 package ru.ershov.backend.mapper;
 
 import lombok.Getter;
-import lombok.Setter;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
-import org.springframework.beans.factory.annotation.Autowired;
-import ru.ershov.backend.config.ModelMapperConfig;
 import ru.ershov.backend.dto.AbstractDto;
 import ru.ershov.backend.entity.AbstractEntity;
 
-import java.util.Objects;
+import java.util.List;
+import java.util.stream.Collectors;
 
+import static java.util.Objects.isNull;
 import static org.modelmapper.config.Configuration.AccessLevel.PRIVATE;
 
 public abstract class AbstractMapper<E extends AbstractEntity, D extends AbstractDto> implements Mapper<E, D> {
@@ -36,22 +35,6 @@ public abstract class AbstractMapper<E extends AbstractEntity, D extends Abstrac
         this.entityClass = entityClass;
         this.dtoClass = dtoClass;
         this.mapper = mapper;
-//        mapper.createTypeMap(entityClass, dtoClass)
-//                .addMappings(m -> m.skip(AbstractDto::setCheckStatus))
-//                .setPostConverter(context -> {
-//                    E source = context.getSource();
-//                    D destination = context.getDestination();
-//                    destination.setCheckStatus(Status.valueOf(source.getCheckStatus()));
-//                    return context.getDestination();
-//                });
-//        mapper.createTypeMap(dtoClass, entityClass)
-//                .addMappings(m -> m.skip(AbstractEntity::setCheckStatus))
-//                .setPostConverter(context -> {
-//                    D source = context.getSource();
-//                    E destination = context.getDestination();
-//                    destination.setCheckStatus(source.getCheckStatus().name());
-//                    return context.getDestination();
-//                });
     }
 
     @Override
@@ -80,17 +63,30 @@ public abstract class AbstractMapper<E extends AbstractEntity, D extends Abstrac
 
     @Override
     public E toEntity(D dto) {
-        return Objects.isNull(dto)
+        return isNull(dto)
                 ? null
                 : mapper.map(dto, entityClass);
     }
 
     @Override
+    public List<E> toEntities(List<D> dtos) {
+        return dtos.stream()
+                .map(d -> isNull(d) ? null : mapper.map(d, entityClass))
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public D toDto(E entity) {
-        return Objects.isNull(entity)
+        return isNull(entity)
                 ? null
                 : mapper.map(entity, dtoClass);
     }
 
+    @Override
+    public List<D> toDtos(List<E> entities) {
+        return entities.stream()
+                .map(e -> isNull(e) ? null : mapper.map(e, dtoClass))
+                .collect(Collectors.toList());
+    }
 
 }

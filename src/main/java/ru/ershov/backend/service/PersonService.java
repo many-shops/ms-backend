@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import ru.ershov.backend.dto.PersonDto;
 import ru.ershov.backend.entity.Person;
 import ru.ershov.backend.mapper.AbstractMapper;
+import ru.ershov.backend.mapper.impl.PersonMapper;
 import ru.ershov.backend.repository.PersonRepository;
 import ru.ershov.backend.repository.RoleRepository;
 
@@ -18,7 +19,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class PersonService implements UserDetailsService {
 
-    private final AbstractMapper<Person, PersonDto> mapper;
+    private final PersonMapper mapper;
     private final PersonRepository personRepository;
     private final RoleRepository roleRepository;
 
@@ -32,7 +33,7 @@ public class PersonService implements UserDetailsService {
         return mapper.toDto(personRepository.findById(id).orElseThrow());
     }
 
-    private Person getByIdInternal(Long id) {
+    protected Person getByIdInternal(Long id) {
         return personRepository.findById(id).orElseThrow();
     }
 
@@ -40,6 +41,10 @@ public class PersonService implements UserDetailsService {
         return personRepository.findAll().stream()
                 .map(mapper::toDto)
                 .collect(Collectors.toList());
+    }
+
+    public boolean existById(Long id) {
+        return personRepository.existsById(id);
     }
 
     public PersonDto insert(PersonDto personDto) {

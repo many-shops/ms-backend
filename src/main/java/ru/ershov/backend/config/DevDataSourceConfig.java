@@ -1,5 +1,9 @@
 package ru.ershov.backend.config;
 
+import com.github.dockerjava.api.model.ExposedPort;
+import com.github.dockerjava.api.model.HostConfig;
+import com.github.dockerjava.api.model.PortBinding;
+import com.github.dockerjava.api.model.Ports;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +28,10 @@ public class DevDataSourceConfig {
     public PostgreSQLContainer postgreSQLContainer() {
         var dockerImageName = DockerImageName.parse(hubImageNamePrefix)
                 .asCompatibleSubstituteFor("postgres:13.4");
-        final var container = new PostgreSQLContainer(dockerImageName);
+        final var container = new PostgreSQLContainer<>(dockerImageName);
+        container.withCreateContainerCmdModifier(cmd -> cmd.withHostConfig(
+                new HostConfig().withPortBindings(new PortBinding(Ports.Binding.bindPort(5432), new ExposedPort(5432)))
+        ));
         container.start();
         log.info("DB Url: {}", container.getJdbcUrl());
         log.info("DB User: {}", container.getUsername());

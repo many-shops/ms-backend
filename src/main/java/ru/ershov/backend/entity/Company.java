@@ -17,7 +17,7 @@ public class Company extends AbstractEntity {
     private String description;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "admin_id")
-    private Person person;
+    private Person seller;
 
     @OneToMany(mappedBy = "company", fetch = FetchType.LAZY)
     private List<Item> items = new ArrayList<>();

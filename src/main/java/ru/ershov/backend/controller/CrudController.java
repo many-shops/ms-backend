@@ -2,12 +2,10 @@ package ru.ershov.backend.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.ershov.backend.dto.AbstractDto;
 import ru.ershov.backend.entity.AbstractEntity;
-import ru.ershov.backend.entity.Person;
 import ru.ershov.backend.service.CrudService;
 
 import javax.validation.Valid;

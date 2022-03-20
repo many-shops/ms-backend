@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -32,7 +31,7 @@ public class AuthController {
 
     @PostMapping("/signup")
     public String registerUser(@RequestBody @Valid RegistrationRequest registrationRequest) {
-        PersonDto p = new PersonDto();
+        var p = new PersonDto();
         p.setPassword(registrationRequest.getPassword());
         p.setUsername(registrationRequest.getLogin());
         p.setEnabled(true);
@@ -59,7 +58,7 @@ public class AuthController {
     }
 
     @PreAuthorize("hasRole('USER')")
-    @GetMapping(value="/userping") // test
+    @GetMapping(value = "/userping") // test
     public String userPing(){
         return "Any User Can Read This";
     }

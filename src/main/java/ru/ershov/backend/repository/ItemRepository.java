@@ -1,6 +1,7 @@
 package ru.ershov.backend.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -24,6 +25,7 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
                     "WHERE company_id = :companyId AND id = :itemId")
     Optional<Item> findById(@Param("companyId") Long companyId, @Param("itemId") Long itemId);
 
+    @Modifying
     @Query(nativeQuery = true,
             value = "DELETE FROM item " +
                     "WHERE company_id = :companyId and id = :itemId")

@@ -10,15 +10,21 @@ import ru.ershov.backend.repository.CompanyRepository;
 @Service
 public class CompanyService extends CrudService<Company, CompanyDto> {
     private final CompanyMapper companyMapper;
+    private final CompanyRepository companyRepository;
 
     public CompanyService(CompanyMapper mapper, CompanyRepository repository) {
         super(mapper, repository);
         this.companyMapper = mapper;
+        this.companyRepository = repository;
     }
 
     public CompanyDto insert(CompanyDto dto, Person person) {
         var company = companyMapper.toEntity(dto);
-        company.setPerson(person);
+        company.setSeller(person);
         return insert(company);
+    }
+
+    public boolean isSellerIsOwner(Long companyId, Long sellerId) {
+        return companyRepository.isSellerOwner(companyId, sellerId);
     }
 }

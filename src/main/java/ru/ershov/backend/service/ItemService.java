@@ -1,5 +1,6 @@
 package ru.ershov.backend.service;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.ershov.backend.dto.ItemDto;
 import ru.ershov.backend.entity.Item;
@@ -7,24 +8,23 @@ import ru.ershov.backend.mapper.impl.ItemMapper;
 import ru.ershov.backend.repository.ItemRepository;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class ItemService {
     private final ItemRepository itemRepository;
     private final ItemMapper itemMapper;
     private final CompanyService companyService;
 
-    public ItemService(ItemMapper mapper, ItemRepository repository, CompanyService companyService) {
-        this.itemRepository = repository;
-        this.itemMapper = mapper;
-        this.companyService = companyService;
+    private void existCompany(Long companyId) {
+        if (!companyService.existById(companyId)) {
+            throw new IllegalArgumentException("no company by id ");
+        }
     }
 
-    public List<ItemDto> getByCompanyId(Long id) {
-        return itemRepository.findAllByCompanyId(id).stream()
-                .map(itemMapper::toDto)
-                .collect(Collectors.toList());
+    public List<ItemDto> getByCompanyId(Long companyId) {
+        existCompany(companyId);
+        return itemMapper.toDtos(itemRepository.findAllByCompanyId(companyId));
     }
 
     public ItemDto get(Long companyId, Long itemId) {
@@ -35,6 +35,10 @@ public class ItemService {
 
     protected Item getInternal(Long companyId, Long itemId) {
         return itemRepository.findById(companyId, itemId).orElseThrow();
+    }
+
+    protected boolean existById(Long id) {
+        return itemRepository.existsById(id);
     }
 
     public ItemDto insert(Long companyId, ItemDto itemDto) {
@@ -50,6 +54,7 @@ public class ItemService {
     }
 
     public void delete(Long companyId, Long itemId) {
+        existCompany(companyId);
         itemRepository.deleteById(companyId, itemId);
     }
 }

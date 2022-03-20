@@ -1,12 +1,12 @@
 package ru.ershov.backend.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Null;
 import java.math.BigDecimal;
 
 @Getter
@@ -24,6 +24,10 @@ public class ItemDto extends AbstractDto {
     @Digits(integer=8, fraction=2)
     private BigDecimal price;
 
-    @JsonIgnoreProperties({"items"})
+//    @JsonIgnoreProperties({"items"})
     private Long companyId;
+
+    // field only for cart
+    @Null
+    private Long amount;
 }

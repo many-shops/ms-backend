@@ -30,8 +30,13 @@ public class Person extends AbstractEntity implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
-    @OneToMany(fetch = FetchType.LAZY)
-    private List<Company> companies = new ArrayList<>();
+    @OneToMany(mappedBy = "seller",fetch = FetchType.LAZY)
+    private transient List<Company> companies = new ArrayList<>();
+
+    @OneToMany(mappedBy = "person", fetch = FetchType.LAZY)
+    private List<ShoppingCart> shoppingCarts;
+
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -55,6 +60,6 @@ public class Person extends AbstractEntity implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return enabled;
     }
 }

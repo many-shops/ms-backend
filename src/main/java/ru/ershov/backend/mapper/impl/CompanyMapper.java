@@ -14,7 +14,7 @@ public class CompanyMapper extends AbstractMapper<Company, CompanyDto> {
                 .setPostConverter(context -> {
                     Company source = context.getSource();
                     CompanyDto destination = context.getDestination();
-                    destination.setAdminId(source.getPerson().getId());
+                    destination.setAdminId(source.getSeller().getId());
                     return context.getDestination();
                 });
     }

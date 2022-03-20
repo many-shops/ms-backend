@@ -24,9 +24,7 @@ public abstract class CrudService<E extends AbstractEntity, D extends AbstractDt
     }
 
     public List<D> getAll() {
-        return repository.findAll().stream()
-                .map(mapper::toDto)
-                .collect(Collectors.toList());
+        return mapper.toDtos(repository.findAll());
     }
 
     public D insert(D dto) {

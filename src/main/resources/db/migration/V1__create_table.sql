@@ -60,4 +60,24 @@ CREATE TABLE shopping_cart
     created_time timestamp default (current_timestamp),
     updated_time timestamp,
     UNIQUE (person_id, item_id)
-)
+);
+
+CREATE TABLE "order"
+(
+    id           BIGSERIAL PRIMARY KEY,
+    person_id    bigint references person (id),
+    address      TEXT,
+    status       TEXT,
+    created_time timestamp default (current_timestamp),
+    updated_time timestamp
+);
+
+CREATE TABLE order_detail
+(
+    id           BIGSERIAL PRIMARY KEY,
+    order_id     bigint references "order" (id),
+    item_id      bigint references item (id),
+    amount       bigint,
+    created_time timestamp default (current_timestamp),
+    updated_time timestamp
+);

@@ -1,6 +1,7 @@
 package ru.ershov.backend.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,6 +15,7 @@ import java.util.List;
 @Validated
 @RestController
 @RequestMapping("/api/companies/{company_id}/items")
+@PreAuthorize("hasRole('USER')")
 @RequiredArgsConstructor
 public class ItemController {
 
@@ -31,7 +33,7 @@ public class ItemController {
             @PathVariable("company_id") Long companyId,
             @PathVariable("item_id") Long itemId
     ) {
-        return itemService.get(companyId, itemId);
+        return itemService.getByIdAndCompanyId(companyId, itemId);
     }
 
 

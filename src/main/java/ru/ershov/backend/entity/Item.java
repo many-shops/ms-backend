@@ -23,4 +23,7 @@ public class Item extends AbstractEntity {
 
     @OneToMany(mappedBy = "item", fetch = FetchType.LAZY)
     private List<ShoppingCart> shoppingCarts;
+
+    @OneToMany(mappedBy = "item", fetch = FetchType.LAZY)
+    private List<OrderDetail> orderDetails;
 }

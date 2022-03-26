@@ -34,7 +34,7 @@ public class Person extends AbstractEntity implements UserDetails {
     private transient List<Company> companies = new ArrayList<>();
 
     @OneToMany(mappedBy = "person", fetch = FetchType.LAZY)
-    private List<ShoppingCart> shoppingCarts;
+    private List<ShoppingCart> shoppingCarts = new ArrayList<>();
 
 
 

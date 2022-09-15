@@ -56,7 +56,7 @@ public class OrderService {
         List<OrderDto> orderDtos = new ArrayList<>();
         createOrderDto.getShoppingCarts().stream()
                 .map(shoppingCartDto -> {
-                    ItemDto byIdInternal = itemService.getByIdInternal(shoppingCartDto.getItemId());
+                    var byIdInternal = itemService.getByIdInternal(shoppingCartDto.getItemId());
                     byIdInternal.setAmount(shoppingCartDto.getAmount());
                     return byIdInternal;
                 })

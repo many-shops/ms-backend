@@ -9,9 +9,10 @@ import ru.ershov.backend.service.CompanyService;
 
 import java.util.List;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/companies")
-@PreAuthorize("hasRole('USER')")
+@PreAuthorize("isAuthenticated()")
 @RequiredArgsConstructor
 public class CompanyController {
 

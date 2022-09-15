@@ -13,13 +13,22 @@ import ru.ershov.backend.entity.Person;
 import ru.ershov.backend.service.CompanyService;
 
 import javax.validation.Valid;
+import java.util.List;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/seller/companies")
 @RequiredArgsConstructor
 public class SellerCompanyController {
 
     private final CompanyService companyService;
+
+    @GetMapping
+    @PreAuthorize("hasAnyRole('ADMIN', 'SELLER')")
+    @Operation(description = "Список компаний продавца")
+    public List<CompanyDto> getAllBySellerId(@AuthenticationPrincipal Person person){
+        return companyService.getAllBySellerId(person.getId());
+    }
 
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN') || (hasRole('SELLER') && @sellerCompanyController.isSellerOwner(#id))")

@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 public class TokenProvider {
     private static final byte[] SIGNING_KEY = "signingkey".getBytes(StandardCharsets.UTF_8);
     private static final String AUTHORITIES_KEY = "roles";
-    private static final int TOKEN_VALIDITY = 10000;
+    private static final int TOKEN_VALIDITY = 900;
     private static final int REFRESH_TOKEN_VALID = 120;
 
     public String getUsernameFromToken(String token) {

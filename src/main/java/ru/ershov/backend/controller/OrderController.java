@@ -16,18 +16,17 @@ import java.util.List;
 @Validated
 @RestController
 @RequestMapping("/api/order")
+@PreAuthorize("isAuthenticated()")
 @RequiredArgsConstructor
 public class OrderController {
 
     private final OrderService orderService;
 
-    @PreAuthorize("isAuthenticated()")
     @GetMapping
     public List<OrderDto> getCurrentSessionOrders(@AuthenticationPrincipal Person person) {
         return orderService.getAllByPersonId(person.getId());
     }
 
-    @PreAuthorize("isAuthenticated()")
     @PostMapping
     public List<OrderDto> createOrder(
             @Valid @RequestBody CreateOrderDto createOrderDto,

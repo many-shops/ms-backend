@@ -3,19 +3,17 @@ package ru.ershov.backend.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.ershov.backend.dto.ItemDto;
 import ru.ershov.backend.service.ItemService;
 
 import java.util.List;
 
+@CrossOrigin(origins = "*")
 @Validated
 @RestController
 @RequestMapping("/api/companies/{company_id}/items")
-@PreAuthorize("hasRole('USER')")
+@PreAuthorize("hasAnyRole('USER', 'SELLER', 'ADMIN')")
 @RequiredArgsConstructor
 public class ItemController {
 
@@ -35,6 +33,5 @@ public class ItemController {
     ) {
         return itemService.getByIdAndCompanyId(companyId, itemId);
     }
-
 
 }

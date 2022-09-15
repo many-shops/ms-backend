@@ -27,7 +27,13 @@ public class ItemService {
         return itemMapper.toDtos(itemRepository.findAllByCompanyId(companyId));
     }
 
-    public ItemDto get(Long companyId, Long itemId) {
+    protected ItemDto getByIdInternal(Long itemId) {
+        return itemRepository.findById(itemId)
+                .map(itemMapper::toDto)
+                .orElseThrow();
+    }
+
+    public ItemDto getByIdAndCompanyId(Long companyId, Long itemId) {
         return itemRepository.findById(companyId, itemId)
                 .map(itemMapper::toDto)
                 .orElseThrow();

@@ -6,6 +6,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import ru.ershov.backend.entity.Company;
 
+import java.util.List;
+
 @Repository
 public interface CompanyRepository extends JpaRepository<Company, Long> {
 
@@ -14,4 +16,6 @@ public interface CompanyRepository extends JpaRepository<Company, Long> {
                     "from company " +
                     "where id = :companyId and admin_id = :sellerId")
     boolean isSellerOwner(@Param("companyId") Long companyId, @Param("sellerId") Long sellerId);
+
+    List<Company> getAllBySellerId(Long sellerId);
 }

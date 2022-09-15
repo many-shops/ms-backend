@@ -2,14 +2,17 @@ package ru.ershov.backend.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.ershov.backend.dto.CompanyDto;
 import ru.ershov.backend.service.CompanyService;
 
 import java.util.List;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/companies")
+@PreAuthorize("isAuthenticated()")
 @RequiredArgsConstructor
 public class CompanyController {
 

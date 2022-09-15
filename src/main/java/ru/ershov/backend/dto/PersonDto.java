@@ -1,8 +1,8 @@
 package ru.ershov.backend.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
-import org.springframework.validation.annotation.Validated;
 import ru.ershov.backend.entity.Role;
 
 import javax.validation.constraints.NotBlank;
@@ -11,10 +11,10 @@ import java.util.Set;
 
 @Getter
 @Setter
-@Validated
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true, onlyExplicitlyIncluded = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class PersonDto extends AbstractDto {
     @NotBlank
     private String username;

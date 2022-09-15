@@ -3,9 +3,11 @@ package ru.ershov.backend.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import ru.ershov.backend.dto.CreateOrderDto;
 import ru.ershov.backend.dto.ItemDto;
 import ru.ershov.backend.dto.ShoppingCartDto;
 import ru.ershov.backend.entity.Person;
@@ -17,6 +19,7 @@ import java.util.List;
 @Validated
 @RestController
 @RequestMapping("/api/shopping-cart")
+@PreAuthorize("hasRole('USER')")
 @RequiredArgsConstructor
 public class ShoppingCartController {
     private final ShoppingCartService shoppingCartService;

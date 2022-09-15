@@ -7,7 +7,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import ru.ershov.backend.dto.PersonDto;
 import ru.ershov.backend.entity.Person;
-import ru.ershov.backend.mapper.AbstractMapper;
 import ru.ershov.backend.mapper.impl.PersonMapper;
 import ru.ershov.backend.repository.PersonRepository;
 import ru.ershov.backend.repository.RoleRepository;

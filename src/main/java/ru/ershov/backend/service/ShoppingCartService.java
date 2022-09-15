@@ -2,6 +2,7 @@ package ru.ershov.backend.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.ershov.backend.dto.CreateOrderDto;
 import ru.ershov.backend.dto.ItemDto;
 import ru.ershov.backend.dto.ShoppingCartDto;
 import ru.ershov.backend.entity.Person;
@@ -55,7 +56,7 @@ public class ShoppingCartService {
     }
 
     public ShoppingCartDto update(Long personId, ShoppingCartDto shoppingCartDto) {
-        ShoppingCart shoppingCart = shoppingCartRepository.getByPersonIdAndItemId(personId, shoppingCartDto.getItemId()).orElseThrow();
+        var shoppingCart = shoppingCartRepository.getByPersonIdAndItemId(personId, shoppingCartDto.getItemId()).orElseThrow();
         shoppingCart.setAmount(shoppingCartDto.getAmount());
         shoppingCartRepository.save(shoppingCart);
         return shoppingCartDto;

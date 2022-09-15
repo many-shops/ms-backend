@@ -11,6 +11,7 @@ import ru.ershov.backend.service.ItemService;
 
 import javax.validation.Valid;
 
+@CrossOrigin(origins = "*")
 @Validated
 @RestController
 @RequestMapping("/api/seller/companies/{company_id}/items")

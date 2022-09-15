@@ -1,12 +1,19 @@
 package ru.ershov.backend.controller;
 
+import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.ershov.backend.config.security.TokenProvider;
 import ru.ershov.backend.dto.PersonDto;
@@ -19,6 +26,7 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Validated
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/auth")
@@ -30,6 +38,11 @@ public class AuthController {
     private final PersonService userService;
 
     @PostMapping("/signup")
+    @Operation(summary = "Get a book by its id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "100", description = "some desc", content = @Content),
+            @ApiResponse(responseCode = "400")
+    })
     public String registerUser(@RequestBody @Valid RegistrationRequest registrationRequest) {
         var p = new PersonDto();
         p.setPassword(registrationRequest.getPassword());
